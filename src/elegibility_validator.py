@@ -1,4 +1,4 @@
-from BOA_scraper import analyze_course_completion
+from boa_scraper import analyze_course_completion
 
 import numpy as np
 import pandas as pd
