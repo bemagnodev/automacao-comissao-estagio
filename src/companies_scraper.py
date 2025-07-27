@@ -25,5 +25,5 @@ def scrape_companies_from_pdf(pdf_path: str, output_excel_path: str = "extracted
 
 if __name__ == "__main__":
     pdf_path = r"C:\Users\fport\Downloads\Convenios-para-Estagios.pdf"
-    output_excel_path = "escrape_companiess.xlsx"
+    output_excel_path = "data/affiliated_companies.xlsx"
     scrape_companies_from_pdf(pdf_path, output_excel_path)
