@@ -5,6 +5,17 @@ from typing import Set, Dict, Any
 import pdfplumber
 
 
+def validate_boa(uploaded_file) -> bool:
+    # Garante que o "cursor" de leitura do arquivo está no início
+    uploaded_file.seek(0)
+    with pdfplumber.open(uploaded_file) as pdf:
+        first_page_text = pdf.pages[0].extract_text()
+        
+        if "BOLETIM DE ORIENTAÇÃO ACADÊMICA" in first_page_text:
+            return True
+        return False
+
+
 def extract_academic_data_from_boa(pdf_path: str) -> dict:
     full_text = ""
 
@@ -16,6 +27,7 @@ def extract_academic_data_from_boa(pdf_path: str) -> dict:
     # A chave do dicionário será a chave no nosso resultado final.
     # O valor é o texto exato que procuramos no documento.
     patterns = {
+        "nome_aluno": r"Emissão\n\s*([A-Z\s]+)",
         "periodos_integralizados": r"Períodos Integralizados \(RES 10/2004 - CEG\):",
         "prazo_maximo": r"Prazo máximo de integralização:",
         "carga_horaria_obtida": r"Carga horária obtida acumulada:",
@@ -39,7 +51,10 @@ def extract_academic_data_from_boa(pdf_path: str) -> dict:
         match = re.search(regex, full_text)
 
         if match:
-            extracted_data[key] = float(match.group(1))
+            if key == "nome_aluno":
+                extracted_data[key] = match.group(1).strip().title()
+            else:
+                extracted_data[key] = float(match.group(1))
         else:
             extracted_data[key] = "Not found"
 
