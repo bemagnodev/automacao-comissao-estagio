@@ -15,7 +15,7 @@ def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) 
     return True
 
 
-def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, company_name: str, boa_path: str) -> bool:
+def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, company_name: str, boa_path: str) -> dict:
     
     academic_requirements = {
         "minimum_cr": 6.0,
@@ -24,44 +24,48 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, compan
         "minimum_credits": 87
     }
 
-    is_valid = True
+    validations_dict = {
+        "valid_cr": True,
+        "valid_periods": True,
+        "valid_ext_hours": True,
+        "valid_company": True,
+        "valid_credits": True,
+        "valid_courses": True,
+        "valid_student": True
+    }
 
     # Validations according to business rules
     if not(academic_data["cr_acumulado"] >= academic_requirements["minimum_cr"]):
-        print(f"CRA ({academic_data["cr_acumulado"]}) está abaixo do mínimo exigido {academic_requirements["minimum_cr"]}.")
-        is_valid = False
+        validations_dict["valid_cr"] = False
+        validations_dict["valid_student"] = False
 
     if not(academic_data["periodos_integralizados"] <= academic_data["prazo_maximo"]):
-        print(f"Prazo máximo de integralização do curso ({academic_data["prazo_maximo"]} períodos) foi ultrapassado.")
-        is_valid = False
+        validations_dict["valid_periods"] = False
+        validations_dict["valid_student"] = False
     
     if not(academic_data["carga_horaria_extensao"] >= academic_requirements["minimum_ext_hours"]):
-        print(f"Faltam {academic_requirements["minimum_ext_hours"] - academic_data["carga_horaria_extensao"]} horas de extensão. Mínimo exigido: {academic_requirements["minimum_ext_hours"]} horas.")
-        is_valid = False
+        validations_dict["valid_ext_hours"] = False
+        validations_dict["valid_student"] = False
     
     if not validate_company_affiliation(companies_df, company_name):
-        print(f"A empresa {company_name} não é afiliada à UFRJ.")
-        is_valid = False
+        validations_dict["valid_company"] = False
+        validations_dict["valid_student"] = False
     
 
     # Check the required courses
     if not(academic_data["creditos_obtidos"] >= academic_requirements["minimum_credits"]):
-        is_valid = False
-        return is_valid
-
+        validations_dict["valid_credits"] = False
+        validations_dict["valid_courses"] = False
+        validations_dict["valid_student"] = False
+        return validations_dict
 
     report = analyze_course_completion(boa_path)
 
     if not(report["status"]["cumpriu_todas_materias"]):
-        print(f"Não cumpriu todas as matérias obrigatórias. Faltam {len(report['status']['materias_pendentes'])} matérias.")
-        is_valid = False 
+        validations_dict["valid_courses"] = False
+        validations_dict["valid_student"] = False 
 
-
-
-    if is_valid:
-        print("Todas as condições para a validação do estágio foram atendidas. O estudante está apto a realizar o estágio.")
-
-    return is_valid
+    return validations_dict
 
 
 if __name__ == "__main__":
