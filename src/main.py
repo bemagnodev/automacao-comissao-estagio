@@ -57,7 +57,6 @@ def generate_report_card(academic_data, validations_dict):
                 "valid_cr": {"name": "Coeficiente de Rendimento", "value": academic_data.get("cr_acumulado"), "required": academic_requirements["minimum_cr"]},
                 "valid_periods": {"name": "Períodos Cursados", "value": academic_data.get("periodos_integralizados"), "required": f'<= {academic_requirements["max_periods"]}'},
                 "valid_ext_hours": {"name": "Horas de Extensão", "value": academic_data.get("carga_horaria_extensao"), "required": f">= {academic_requirements['minimum_ext_hours']}"},
-                "valid_credits": {"name": "Créditos Obtidos", "value": academic_data.get("creditos_obtidos"), "required": f">= {academic_requirements['minimum_credits']}"},
                 "valid_company": {"name": "Empresa Conveniada", "value": validations_dict.get("valid_company"), "required": "True"},
                 "valid_courses": {"name": "Disciplinas Obrigatórias", "value": validations_dict.get("valid_courses"), "required": "True"},
             }
