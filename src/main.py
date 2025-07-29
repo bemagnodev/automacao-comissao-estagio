@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
 
-from src.boa_scraper import extract_academic_data_from_boa, validate_boa
-from src.elegibility_validator import validate_eligibility
+from boa_scraper import extract_academic_data_from_boa, validate_boa
+from elegibility_validator import validate_eligibility
 
 
 def generate_report_card(academic_data, validations_dict):
