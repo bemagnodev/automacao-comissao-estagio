@@ -1,7 +1,8 @@
-from boa_scraper import analyze_course_completion
-
 import numpy as np
 import pandas as pd
+
+from boa_scraper import analyze_course_completion
+
 
 def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) -> bool:
     # Maybe we should validate the company`s CNPJ instead of the name?

@@ -1,7 +1,7 @@
-from elegibility_validator import validate_eligibility
-from boa_scraper import extract_academic_data_from_BOA
-
 import pandas as pd
+
+from boa_scraper import extract_academic_data_from_BOA
+from elegibility_validator import validate_eligibility
 
 
 def main(boa_path: str):

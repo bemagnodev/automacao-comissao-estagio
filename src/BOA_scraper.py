@@ -1,9 +1,8 @@
 import json
-import pdfplumber
 import re
+from typing import Set, Dict, Any
 
-from typing import Set, Dict, Any, List
-
+import pdfplumber
 
 
 def extract_academic_data_from_boa(pdf_path: str) -> dict:
