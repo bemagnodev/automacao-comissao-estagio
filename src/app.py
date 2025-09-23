@@ -37,7 +37,6 @@ def main():
     # --- Cabeçalho com Logo ---
     render_header(LOGO_PATH)
 
-
     # --- Componentes da Interface ---
     uploaded_file = file_upload()
 
@@ -47,14 +46,14 @@ def main():
         if uploaded_file is not None:            
             with st.spinner('Analisando documento... Por favor, aguarde.'):
                 academic_data = extract_academic_data_from_boa(uploaded_file)
-                academic_data = {
-                                    "periodos_integralizados": 10,
-                                    "prazo_maximo": 12,
-                                    "carga_horaria_obtida": 200,
-                                    "creditos_obtidos": 120.0,
-                                    "cr_acumulado": 9.5,
-                                    "carga_horaria_extensao": 380,
-                                }
+                # academic_data = {
+                #                     "periodos_integralizados": 10,
+                #                     "prazo_maximo": 12,
+                #                     "carga_horaria_obtida": 200,
+                #                     "creditos_obtidos": 120.0,
+                #                     "cr_acumulado": 9.5,
+                #                     "carga_horaria_extensao": 380,
+                #                 }
                 
                 validations_dict = validate_eligibility(academic_data, companies_df, uploaded_file)
                 # st.write(validations_dict)
@@ -65,8 +64,6 @@ def main():
                     del st.session_state['validations_dict']
                 st.error("Erro: Por favor, faça o upload de um arquivo PDF válido antes de processar.")
     
-
-
     # --- EXIBIÇÃO DOS RESULTADOS ---
     if 'validations_dict' in st.session_state:
         st.divider()
@@ -74,8 +71,6 @@ def main():
         if st.session_state['validations_dict'].get("valid_student", False):
             st.success("Todas as condições para a validação do estágio foram atendidas.")
             st.markdown("**Próximo Passo:** [Acessar o Formulário de Inscrição para o Estágio](https://docs.google.com/forms/d/e/1FAIpQLSeNnHzF-xM3wSCf2ALQrhWYzP-GNhKy4nDWbOwqBqZtx7fGBw/viewform)")
-
-
 
 
 if __name__ == "__main__":
