@@ -1,5 +1,4 @@
 import streamlit as st
-# from ..boa_scraper import validate_boa
 import pdfplumber
 
 
@@ -15,16 +14,29 @@ def validate_boa(uploaded_file) -> bool:
 
 
 def file_upload():
-    st.header("1. Faça o upload do seu BOA em PDF")
-    uploaded_file = st.file_uploader(
-        "Escolha o arquivo PDF",
-        type="pdf",
-        help="Apenas arquivos no formato .pdf são aceitos."
-    )
+    """
+    Renderiza a seção de upload de arquivo dentro de um container
+    e realiza a validação inicial do arquivo BOA.
 
-    if uploaded_file:
-        if validate_boa(uploaded_file):
-            st.success(f"Arquivo {uploaded_file.name} foi validado e carregado com sucesso!")
-            return uploaded_file
-        else:
-            st.error("O arquivo carregado não é um BOA válido. Por favor, verifique o arquivo e tente novamente.")
+    Retorna:
+        O objeto do arquivo carregado (UploadedFile) se for válido, senão None.
+    """
+    # O container agora faz parte do componente
+    with st.container(border=True):
+        st.header("1. Faça o upload do BOA em PDF")
+        uploaded_file = st.file_uploader(
+            "Anexe o Boletim de Orientação Acadêmica do aluno",
+            type="pdf",
+            help="Apenas arquivos no formato .pdf são aceitos.",
+            label_visibility="collapsed" 
+        )
+
+        # Validação do arquivo 
+        if uploaded_file:
+            if validate_boa(uploaded_file):
+                st.success(f"Arquivo '{uploaded_file.name}' validado e pronto para análise!")
+                return uploaded_file
+            else:
+                st.error("O arquivo carregado não parece ser um BOA válido. Por favor, verifique e tente novamente.")
+                return None
+    return None
