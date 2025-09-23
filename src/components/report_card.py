@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def generate_report_card(academic_data, validations_dict):
+def report_card(academic_data, validations_dict):
     """
     Gera um card de relatório de elegibilidade no Streamlit.
 
@@ -35,7 +35,7 @@ def generate_report_card(academic_data, validations_dict):
         with col3:
             st.metric(label="Horas de Extensão", value=f'{academic_data.get("carga_horaria_extensao", 0)}h')
             
-        st.write("") # Adiciona um espaço
+        st.write("")
 
         # --- Expander para Detalhes dos Critérios ---
         with st.expander("Ver análise detalhada dos critérios"):
@@ -53,7 +53,7 @@ def generate_report_card(academic_data, validations_dict):
                 "valid_cr": {"name": "Coeficiente de Rendimento", "value": academic_data.get("cr_acumulado"), "required": academic_requirements["minimum_cr"]},
                 "valid_periods": {"name": "Períodos Cursados", "value": academic_data.get("periodos_integralizados"), "required": f'<= {academic_requirements["max_periods"]}'},
                 "valid_ext_hours": {"name": "Horas de Extensão", "value": academic_data.get("carga_horaria_extensao"), "required": f">= {academic_requirements['minimum_ext_hours']}"},
-                "valid_company": {"name": "Empresa Conveniada", "value": validations_dict.get("valid_company"), "required": "True"},
+                # "valid_company": {"name": "Empresa Conveniada", "value": validations_dict.get("valid_company"), "required": "True"},
                 "valid_courses": {"name": "Disciplinas Obrigatórias", "value": validations_dict.get("valid_courses"), "required": "True"},
             }
 

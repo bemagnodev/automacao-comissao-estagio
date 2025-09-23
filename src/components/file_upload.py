@@ -14,7 +14,6 @@ def validate_boa(uploaded_file) -> bool:
         return False
 
 
-
 def file_upload():
     st.header("1. Faça o upload do seu BOA em PDF")
     uploaded_file = st.file_uploader(

@@ -15,7 +15,7 @@ def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) 
     return True
 
 
-def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, company_name: str, boa_path: str) -> dict:
+def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, boa_path: str) -> dict:
     
     academic_requirements = {
         "minimum_cr": 6.0,
@@ -47,9 +47,9 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, compan
         validations_dict["valid_ext_hours"] = False
         validations_dict["valid_student"] = False
     
-    if not validate_company_affiliation(companies_df, company_name):
-        validations_dict["valid_company"] = False
-        validations_dict["valid_student"] = False
+    # if not validate_company_affiliation(companies_df, company_name):
+    #     validations_dict["valid_company"] = False
+    #     validations_dict["valid_student"] = False
     
 
     # Check the required courses
