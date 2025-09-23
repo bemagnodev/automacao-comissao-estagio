@@ -51,6 +51,8 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, boa_pa
     #     validations_dict["valid_company"] = False
     #     validations_dict["valid_student"] = False
     
+    report = analyze_course_completion(boa_path)
+    validations_dict["report"] = report
 
     # Check the required courses
     if not(academic_data["creditos_obtidos"] >= academic_requirements["minimum_credits"]):
@@ -58,8 +60,6 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, boa_pa
         validations_dict["valid_courses"] = False
         validations_dict["valid_student"] = False
         return validations_dict
-
-    report = analyze_course_completion(boa_path)
 
     if not(report["status"]["cumpriu_todas_materias"]):
         validations_dict["valid_courses"] = False
@@ -86,4 +86,4 @@ if __name__ == "__main__":
     companies_df = pd.read_excel("data/affiliated_companies.xlsx")
 
     empresa_teste = "2PLAN STUDIO ARQUITETURA LTDA"
-    validate_eligibility(academic_data, companies_df, empresa_teste)
+    d = validate_eligibility(academic_data, companies_df, empresa_teste)

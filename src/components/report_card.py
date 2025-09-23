@@ -63,5 +63,29 @@ def report_card(academic_data, validations_dict):
                     icon = "✅" if validation_status else "❌"
                     
                     st.markdown(
-                        f"{icon} **{details['name']}:** (Seu: `{details['value']}` | Requisito: `{details['required']}`)"
+                        # f"{icon} **{details['name']}:** (Seu: `{details['value']}` | Requisito: `{details['required']}`)"
+                        f"{icon} **{details['name']}**"
                     )
+                    
+                    # Adiciona a explicação se o critério não foi cumprido
+                    if not validation_status:
+                        if key == "valid_cr":
+                            st.markdown(f"**Por que?** Seu Coeficiente de Rendimento (CR) está abaixo do mínimo exigido. Para ser elegível, o aluno deve manter um CR de `{academic_requirements['minimum_cr']}` ou superior. Seu CR atual é de `{academic_data.get('cr_acumulado')}`.")
+                            st.markdown(f"**Como resolver?** Entre em contato com a COAA ou com seu orientador acadêmico para discutir estratégias de melhoria acadêmica, como monitorias, grupos de estudo ou aconselhamento acadêmico.")
+                        elif key == "valid_periods":
+                            st.markdown(f"**Por que?** O aluno excedeu o número máximo de períodos para a conclusão do curso. O prazo máximo é de `{academic_requirements['max_periods']}` períodos e o aluno já cursou `{academic_data.get('periodos_integralizados')}`.")
+                            st.markdown(f"**Como resolver?** Entre em contato com a COAA ou com seu orientador acadêmico para analisar o seu caso.")
+                        elif key == "valid_ext_hours":
+                            st.markdown(f"**Por que?** A carga horária de extensão registrada está abaixo do requisito mínimo. O aluno precisa completar um total de `{academic_requirements['minimum_ext_hours']}` horas de extensão, mas a carga horária atual é de `{academic_data.get('carga_horaria_extensao')}` horas.")
+                            st.markdown(f"**Como resolver?** Considere participar de atividades de extensão oferecidas pela universidade. Confira as opções disponíveis em: https://portal.ufrj.br/Registro/requerimento/aluno/extensao/filtro")
+                        elif key == "valid_courses":
+                            st.markdown(f"**Por que?** O aluno ainda não foi aprovado em todas as disciplinas obrigatórias necessárias para o programa. É essencial que todas as matérias obrigatórias até o quarto período sejam concluídas.")
+                            materias_pendentes = validations_dict.get("report", {}).get("status", {}).get("materias_pendentes")
+                            if materias_pendentes:
+                                expander_label = f"Matérias Pendentes ({len(materias_pendentes)})"
+                                with st.expander(expander_label):
+                                    for materia in materias_pendentes:
+                                        st.markdown(f"- {materia}")
+                            else:
+                                st.caption("Não há matérias pendentes para exibir.")
+                        st.markdown("")
