@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from BOA_scraper import analyze_course_completion
+from boa_scraper import analyze_course_completion
 
 
 def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) -> bool:
