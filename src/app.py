@@ -4,7 +4,7 @@ from PIL import Image
 import os
 
 # Funções de backend
-from boa_scraper import extract_academic_data_from_boa
+from BOA_scraper import extract_academic_data_from_boa
 from elegibility_validator import validate_eligibility
 
 # Componentes da interface
