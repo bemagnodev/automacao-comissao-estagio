@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from BOA_scraper import analyze_course_completion
+from boa_scraper import analyze_course_completion
 
 
 def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) -> bool:
@@ -15,7 +15,7 @@ def validate_company_affiliation(companies_df: pd.DataFrame, company_name: str) 
     return True
 
 
-def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, company_name: str, boa_path: str) -> dict:
+def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, boa_path: str) -> dict:
     
     academic_requirements = {
         "minimum_cr": 6.0,
@@ -47,10 +47,12 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, compan
         validations_dict["valid_ext_hours"] = False
         validations_dict["valid_student"] = False
     
-    if not validate_company_affiliation(companies_df, company_name):
-        validations_dict["valid_company"] = False
-        validations_dict["valid_student"] = False
+    # if not validate_company_affiliation(companies_df, company_name):
+    #     validations_dict["valid_company"] = False
+    #     validations_dict["valid_student"] = False
     
+    report = analyze_course_completion(boa_path)
+    validations_dict["report"] = report
 
     # Check the required courses
     if not(academic_data["creditos_obtidos"] >= academic_requirements["minimum_credits"]):
@@ -58,8 +60,6 @@ def validate_eligibility(academic_data: dict, companies_df: pd.DataFrame, compan
         validations_dict["valid_courses"] = False
         validations_dict["valid_student"] = False
         return validations_dict
-
-    report = analyze_course_completion(boa_path)
 
     if not(report["status"]["cumpriu_todas_materias"]):
         validations_dict["valid_courses"] = False
@@ -86,4 +86,4 @@ if __name__ == "__main__":
     companies_df = pd.read_excel("data/affiliated_companies.xlsx")
 
     empresa_teste = "2PLAN STUDIO ARQUITETURA LTDA"
-    validate_eligibility(academic_data, companies_df, empresa_teste)
+    d = validate_eligibility(academic_data, companies_df, empresa_teste)
