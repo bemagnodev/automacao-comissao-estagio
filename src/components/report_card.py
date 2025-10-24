@@ -79,7 +79,7 @@ def report_card(academic_data, validations_dict):
                         
                         elif key == "valid_ext_hours":
                             ano_ingresso = academic_data.get("ano_ingresso", "")
-                            if int(ano_ingresso[0:1]) < 25:
+                            if int(ano_ingresso[0:2]) < 25:
                                 st.info(
                                         "ℹ️ **Recomendação (Horas de Extensão):** \n\n"
                                         "Notamos que você ingressou antes de 25.1. Para a sua grade curricular, "
