@@ -51,6 +51,8 @@ def main():
             with st.spinner('Analisando documento... Por favor, aguarde.'):
                 academic_data = extract_academic_data_from_boa(uploaded_file)
                 # academic_data = {
+                #                     "nome_aluno": "João da Silva",
+                #                     "matricula": "2021001234",
                 #                     "periodos_integralizados": 10,
                 #                     "prazo_maximo": 12,
                 #                     "carga_horaria_obtida": 200,
@@ -58,7 +60,7 @@ def main():
                 #                     "cr_acumulado": 9.5,
                 #                     "carga_horaria_extensao": 380,
                 #                 }
-                
+                # st.write(academic_data)
                 validations_dict = validate_eligibility(academic_data, companies_df, uploaded_file)
                 # st.write(validations_dict)
                 st.session_state['academic_data'] = academic_data

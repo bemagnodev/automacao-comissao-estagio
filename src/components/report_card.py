@@ -72,12 +72,24 @@ def report_card(academic_data, validations_dict):
                         if key == "valid_cr":
                             st.markdown(f"**Por que?** Seu Coeficiente de Rendimento (CR) está abaixo do mínimo exigido. Para ser elegível, o aluno deve manter um CR de `{academic_requirements['minimum_cr']}` ou superior. Seu CR atual é de `{academic_data.get('cr_acumulado')}`.")
                             st.markdown(f"**Como resolver?** Entre em contato com a COAA ou com seu orientador acadêmico para discutir estratégias de melhoria acadêmica, como monitorias, grupos de estudo ou aconselhamento acadêmico.")
+                        
                         elif key == "valid_periods":
                             st.markdown(f"**Por que?** O aluno excedeu o número máximo de períodos para a conclusão do curso. O prazo máximo é de `{academic_requirements['max_periods']}` períodos e o aluno já cursou `{academic_data.get('periodos_integralizados')}`.")
                             st.markdown(f"**Como resolver?** Entre em contato com a COAA ou com seu orientador acadêmico para analisar o seu caso.")
+                        
                         elif key == "valid_ext_hours":
-                            st.markdown(f"**Por que?** A carga horária de extensão registrada está abaixo do requisito mínimo. O aluno precisa completar um total de `{academic_requirements['minimum_ext_hours']}` horas de extensão, mas a carga horária atual é de `{academic_data.get('carga_horaria_extensao')}` horas.")
-                            st.markdown(f"**Como resolver?** Considere participar de atividades de extensão oferecidas pela universidade. Confira as opções disponíveis em: https://portal.ufrj.br/Registro/requerimento/aluno/extensao/filtro")
+                            ano_ingresso = academic_data.get("ano_ingresso", "")
+                            if int(ano_ingresso[0:1]) < 25:
+                                st.info(
+                                        "ℹ️ **Recomendação (Horas de Extensão):** \n\n"
+                                        "Notamos que você ingressou antes de 25.1. Para a sua grade curricular, "
+                                        "as horas de extensão **não são um requisito obrigatório** para a validação do estágio, "
+                                        "mas são **altamente recomendadas** para uma experiência acadêmica mais completa."
+                                        )
+                            else:
+                                st.markdown(f"**Por que?** A carga horária de extensão registrada está abaixo do requisito mínimo. O aluno precisa completar um total de `{academic_requirements['minimum_ext_hours']}` horas de extensão, mas a carga horária atual é de `{academic_data.get('carga_horaria_extensao')}` horas.")
+                                st.markdown(f"**Como resolver?** Considere participar de atividades de extensão oferecidas pela universidade. Confira as opções disponíveis em: https://portal.ufrj.br/Registro/requerimento/aluno/extensao/filtro")
+                        
                         elif key == "valid_courses":
                             st.markdown(f"**Por que?** O aluno ainda não foi aprovado em todas as disciplinas obrigatórias necessárias para o programa. É essencial que todas as matérias obrigatórias até o quarto período sejam concluídas.")
                             materias_pendentes = validations_dict.get("report", {}).get("status", {}).get("materias_pendentes")
@@ -88,4 +100,5 @@ def report_card(academic_data, validations_dict):
                                         st.markdown(f"- {materia}")
                             else:
                                 st.caption("Não há matérias pendentes para exibir.")
+                        
                         st.markdown("")
