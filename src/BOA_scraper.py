@@ -87,8 +87,8 @@ def extract_approved_courses(page_text: str) -> Set[str]:
     """
     codes_to_exclude = {"ICPZ55", "ICPX06"}
 
-    # Pattern to find approved courses (lines ending with a grade).
-    approved_pattern = r"^((?:ICP|MAE|MAD|ICPX|ICPZ)\w+)\s+.*?\s+\d+\.\d\s+\d+\s+([\d\.]{1,4})$"
+    # Pattern to find approved courses (lines ending with a grade or 'T').
+    approved_pattern = r"^((?:ICP|MAE|MAD|ICPX|ICPZ)\w+)\s+.*?\s+\d+\.\d\s+\d+\s+([\d\.]{1,4}|T)$"
     
     approved_set = set()
     
