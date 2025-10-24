@@ -8,10 +8,11 @@ from boa_scraper import extract_academic_data_from_boa
 from elegibility_validator import validate_eligibility
 
 # Componentes da interface
-from components.sidebar import render_sidebar
-from components.header import render_header
 from components.file_upload import file_upload
+from components.header import render_header
+from components.privacy_notice import render_privacy_notice
 from components.report_card import report_card
+from components.sidebar import render_sidebar
 # from components.select_company import select_company
 
 
@@ -36,6 +37,9 @@ def main():
 
     # --- Cabeçalho com Logo ---
     render_header(LOGO_PATH)
+
+    # --- Aviso de Privacidade ---
+    render_privacy_notice()
 
     # --- Componentes da Interface ---
     uploaded_file = file_upload()
