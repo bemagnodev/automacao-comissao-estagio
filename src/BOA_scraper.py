@@ -22,12 +22,16 @@ def extract_academic_data_from_boa(pdf_path: str) -> dict:
     with pdfplumber.open(pdf_path) as pdf:
         for page in pdf.pages:
             full_text += page.extract_text() or ""
+            
+    # Adicionando um espaço entre as páginas para evitar que o fim de uma 
+    # página e o começo de outra se juntem e quebrem o regex.
+    full_text += "\n" 
 
-    # 2. Define os padrões de busca para cada campo de interesse
-    # A chave do dicionário será a chave no nosso resultado final.
-    # O valor é o texto exato que procuramos no documento.
+    # 2. Define os padrões de busca
     patterns = {
         "nome_aluno": r"Emissão\n\s*([A-Z\s]+)",
+        "matricula": r"Emissão\n\s*[A-Z\s]+\s+([\d]+)",
+        "ano_ingresso": "Not found",  # Será preenchido depois
         "periodos_integralizados": r"Períodos Integralizados \(RES 10/2004 - CEG\):",
         "prazo_maximo": r"Prazo máximo de integralização:",
         "carga_horaria_obtida": r"Carga horária obtida acumulada:",
@@ -39,24 +43,44 @@ def extract_academic_data_from_boa(pdf_path: str) -> dict:
     extracted_data = {}
 
     # 3. Itera sobre cada padrão para encontrar o valor correspondente
-    for key, label in patterns.items():
-        # Constrói a expressão regular:
-        # - texto_label: O texto que estamos procurando.
-        # - \s*: Procura por zero ou mais espaços, quebras de linha ou tabs.
-        # - ([\d.]+): Captura um grupo de um ou mais dígitos (\d) ou pontos (.).
-        #   Este grupo é o nosso valor!
-        regex = rf"{label}\s*([\d.]+)"
+    for key, pattern_string in patterns.items(): # Mudei 'label' para 'pattern_string'
+        
+        # Verifica se a chave é uma das que já têm o regex completo
+        if key in ["nome_aluno", "matricula"]:
+            regex = pattern_string # Usa o regex EXATAMENTE como está no dicionário
+        else:
+            # Para as outras chaves, constrói o regex como você fazia antes
+            regex = rf"{pattern_string}\s*([\d.]+)"
 
         # Procura pelo padrão no texto completo
+        # Adiciona re.MULTILINE para o ^ e $ funcionarem por linha (se necessário,
+        # mas r"Emissão\n" já lida bem com quebras de linha)
         match = re.search(regex, full_text)
 
         if match:
+            # Precisamos tratar a extração de forma diferente para cada tipo
             if key == "nome_aluno":
                 extracted_data[key] = match.group(1).strip().title()
+            
+            elif key == "matricula":
+                # Matrícula é uma string de dígitos, não um float
+                extracted_data[key] = match.group(1).strip()
+                
             else:
+                # Os outros campos são números (possivelmente float)
                 extracted_data[key] = float(match.group(1))
         else:
             extracted_data[key] = "Not found"
+
+    # --- LÓGICA DO ANO DE INGRESSO ---
+    matricula_str = extracted_data.get("matricula")
+
+    if matricula_str and matricula_str != "Not found" and len(matricula_str) >= 3:
+        semestre = matricula_str[0]
+        ano = matricula_str[1:3]
+        
+        # Formata a string de saída como "ano.semestre" (ex: "25.1" ou "26.2")
+        extracted_data["ano_ingresso"] = f"{ano}.{semestre}"
 
     return extracted_data
 
@@ -87,8 +111,8 @@ def extract_approved_courses(page_text: str) -> Set[str]:
     """
     codes_to_exclude = {"ICPZ55", "ICPX06"}
 
-    # Pattern to find approved courses (lines ending with a grade).
-    approved_pattern = r"^((?:ICP|MAE|MAD|ICPX|ICPZ)\w+)\s+.*?\s+\d+\.\d\s+\d+\s+([\d\.]{1,4})$"
+    # Pattern to find approved courses (lines ending with a grade or 'T').
+    approved_pattern = r"^((?:ICP|MAE|MAD|ICPX|ICPZ)\w+)\s+.*?\s+\d+\.\d\s+\d+\s+([\d\.]{1,4}|T)$"
     
     approved_set = set()
     
