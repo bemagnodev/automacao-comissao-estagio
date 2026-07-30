@@ -1,38 +1,50 @@
-# Projeto de Automação da Comissão de Estágio - IC/UFRJ
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+# IC/UFRJ Internship Committee Automation
+
+![Status](https://img.shields.io/badge/status-completed-brightgreen?style=for-the-badge)
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
+![PDFPlumber](https://img.shields.io/badge/PDFPlumber-4A5568?style=for-the-badge)
 
 ---
 
-### Visão Geral
-Ferramenta de automação em **Python** para otimizar a verificação de documentos da Comissão de Estágio do Instituto de Computação (IC) da UFRJ. O objetivo é reduzir o trabalho manual e agilizar a pré-análise e aprovação de alunos, como parte do projeto de extensão **InovaProcess**.
+## Overview
 
-*Este repositório é um fork do [projeto original](https://github.com/Inova-Process/automacao-comissao-estagio), onde sou um contribuidor ativo.*
+Python automation tool developed to optimize the document verification workflow of the Internship Committee at the Institute of Computing (IC) at the Federal University of Rio de Janeiro (UFRJ).
 
-### O Problema
-O processo atual de aprovação de estágios é manual, lento e propenso a gargalos. Os principais desafios são:
-* **Prazos Rígidos:** Submissão de documentação com prazos rigorosos para os alunos.
-* **Verificação Manual:** A comissão analisa cada documento manualmente, um processo demorado.
-* **Falta de Transparência:** O aluno não possui um sistema claro para acompanhar o status da sua solicitação.
+The goal is to reduce manual work and speed up the preliminary analysis of student internship requests, as part of **InovaProcess**, an extension project focused on process improvement at the Institute of Computing.
 
-### A Solução (MVP)
-A primeira versão (MVP) da ferramenta é um script de automação que realiza uma pré-análise dos documentos do aluno, retornando um resultado de **APROVADO** ou **REPROVADO** com base nas seguintes regras de negócio:
-* Verificar se o Coeficiente de Rendimento (CRA) é ≥ 6.0.
-* Validar a integralização de todos os créditos obrigatórios até o 4º período.
-* Analisar se o aluno está dentro do prazo máximo de 14 semestres para conclusão do curso.
-* Validar o cumprimento do mínimo de 160 horas de atividades de extensão.
+*This repository is a fork of the [original project](https://github.com/Inova-Process/automacao-comissao-estagio), where I am an active contributor.*
 
-### Tecnologias Utilizadas
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)  ![PDFPlumber](https://img.shields.io/badge/PDFPlumber-4A5568?style=for-the-badge)
+## The Problem
 
-### Meu Papel e Contribuições
-Como um dos desenvolvedores do projeto, minhas responsabilidades atuais incluem:
-* O desenvolvimento do script principal de automação em **Python**.
-* A implementação das regras de negócio para extração e validação de dados do Histórico Escolar da UFRJ.
-* Pesquisa e escolha das bibliotecas mais eficientes para manipulação de arquivos PDF.
+The current internship request workflow involves manual document checking, which can be slow and prone to bottlenecks. The main challenges include:
 
-### Como Executar
-*Instruções de instalação e execução do projeto serão adicionadas em breve.*
+- **Strict deadlines:** students must submit internship documentation within specific deadlines.
+- **Manual verification:** the committee needs to review each document manually.
+- **Process bottlenecks:** manual checks can delay the preliminary analysis of student requests.
 
-### Contribuidores
-* [Bernardo Magno](https://github.com/bemagnodev)
-* [Felipe Rivetti](https://github.com/feliperivetti)
+## The Solution (MVP)
+
+The first version of the tool is an automation script that performs a preliminary analysis of student academic documents and returns a validation result based on predefined business rules.
+
+The MVP currently checks whether the student:
+
+- has a cumulative academic coefficient (CRA) of at least 6.0;
+- has completed all mandatory credits up to the 4th academic period;
+- is within the maximum 14-semester course completion limit;
+- has completed at least 160 hours of extension activities.
+
+## My Role and Contributions
+
+As one of the developers of the project, my current responsibilities include:
+
+- developing the main automation script in Python;
+- implementing business rules for extracting and validating data from UFRJ academic records;
+- researching and selecting libraries for PDF parsing and document processing;
+- contributing to the structure of an automation workflow for a real administrative process at the Institute of Computing.
+
+## Contributors
+
+- [Bernardo Magno](https://github.com/bemagnodev)
+- [Felipe Rivetti](https://github.com/feliperivetti)
